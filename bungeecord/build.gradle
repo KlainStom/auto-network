@@ -1,0 +1,34 @@
+plugins {
+    id 'com.github.johnrengelman.shadow'
+}
+
+repositories {
+    maven {
+        name = 'sonatype'
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+}
+
+dependencies {
+    api project(':auto-network-common')
+    // compileOnly 'net.md-5:bungeecord-api:1.17-R0.1-SNAPSHOT'
+    compileOnly 'net.md-5:bungeecord-api:1.16-R0.4'
+}
+
+processResources {
+    def props = [version: project.version]
+    inputs.properties props
+    expand props
+    filteringCharset 'UTF-8'
+    filesMatching('bungee.yml') {
+        expand props
+    }
+}
+
+shadowJar {
+    dependencies {
+        include(dependency(':auto-network-common'))
+    }
+}
+
+tasks.build.dependsOn tasks.shadowJar

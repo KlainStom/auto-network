@@ -1,2 +1,2 @@
-# template-extension
-Template for pure java minestom extensions
+# auto-network
+Use UDP broadcasts to let proxy and servers discover each other

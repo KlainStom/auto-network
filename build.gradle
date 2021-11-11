@@ -1,56 +1,35 @@
-buildscript {
-    repositories {
-        maven { url 'https://repo.spongepowered.org/maven' }
-    }
-}
-
 plugins {
-    id 'com.github.johnrengelman.shadow' version '7.0.0'
-    id 'net.kyori.blossom' version '1.3.0'
-    id 'java'
+    id "com.github.johnrengelman.shadow" version "7.0.0" apply false
+    id "org.jetbrains.gradle.plugin.idea-ext" version "1.0.1"
 }
 
-def displayName = 'TemplateExtension'
-group 'com.github.klainstom'
-version '1.0-SNAPSHOT'
+group = 'com.github.klainstom'
+version = '1.0-SNAPSHOT'
 
-repositories {
-    mavenCentral()
-    maven { url 'https://repo.spongepowered.org/maven' }
-    maven { url 'https://jitpack.io' }
-}
+subprojects {
+    apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
 
-dependencies {
-    compileOnly('com.github.Minestom:Minestom:-SNAPSHOT')
-}
+    group = parent.group
+    version = parent.version
 
-blossom {
-    replaceToken('$version$', version)
-    replaceToken('$group$', group)
-    replaceToken('$name$', displayName)
-}
+    def targetJavaVersion = property('javaVersion') as int
+    java {
+        def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
+        if (JavaVersion.current() < javaVersion) {
+            toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+        }
+    }
 
-processResources.expand(
-        'version': version,
-        'group': group,
-        'name': displayName
-)
+    tasks.withType(JavaCompile).configureEach {
+        if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+            options.release = targetJavaVersion
+        }
+    }
 
-shadowJar {
-    archiveBaseName.set(displayName)
-    archiveClassifier.set('')
-    archiveVersion.set(project.version.toString())
-}
-
-test {
-    useJUnitPlatform()
-}
-
-build {
-    dependsOn(shadowJar)
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    repositories {
+        mavenCentral()
+    }
 }

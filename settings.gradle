@@ -1,2 +1,28 @@
-rootProject.name = 'template-extension'
+pluginManagement {
+    repositories {
+        maven {
+            name = 'Fabric'
+            url = 'https://maven.fabricmc.net/'
+        }
+        gradlePluginPortal()
+    }
+}
+
+rootProject.name = 'auto-network'
+
+def modulePrefix = ":auto-network-"
+
+include(modulePrefix + "common")
+include(modulePrefix + "fabric")
+include(modulePrefix + "bungeecord")
+include(modulePrefix + "velocity")
+include(modulePrefix + "minestom")
+
+project(modulePrefix + "common").projectDir = file("common")
+project(modulePrefix + "fabric").projectDir = file("fabric")
+project(modulePrefix + "bungeecord").projectDir = file("bungeecord")
+project(modulePrefix + "velocity").projectDir = file("velocity")
+project(modulePrefix + "minestom").projectDir = file("minestom")
+
+project(modulePrefix + "minestom")
 

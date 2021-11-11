@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "auto-network-fabric",
+  "version": "${version}",
+
+  "name": "Auto Network",
+  "description": "",
+  "authors": [],
+  "contact": {},
+
+  "license": "unlicense",
+  "icon": "assets/auto-network-fabric/icon.png",
+
+  "environment": "server",
+  "entrypoints": {
+    "server": [
+      "com.github.klainstom.autonetwork.AutoNetworkFabric"
+    ]
+  },
+
+    
+  "depends": {
+    "fabricloader": ">=0.12.5",
+              "fabric": "*",
+          "minecraft": "1.17.1"
+  }
+}

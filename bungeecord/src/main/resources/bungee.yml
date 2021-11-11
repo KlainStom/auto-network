@@ -1,0 +1,3 @@
+name: Auto Network
+version: '${version}'
+main: com.github.klainstom.autonetwork.AutoNetworkBungeeCord
