@@ -10,38 +10,36 @@ import org.jglrxavpok.hephaistos.nbt.SNBTParser;
 import java.io.StringReader;
 
 public class ExtensionMain extends Extension {
-    public static final Settings<BackendSettingsState> SETTINGS = new Settings<>(new BackendSettingsState());
-
     @Override
     public void initialize() {
         MinecraftServer.LOGGER.info("$name$ initialize.");
-        SETTINGS.read();
+        Settings.read();
         BasicServerInfo info = null;
-        if (SETTINGS.current().isPromote()) {
+        if (Settings.isPromote()) {
             BasicServerInfo.Address address = new BasicServerInfo.Address(MinecraftServer.getServer().getAddress(),
                     MinecraftServer.getServer().getPort());
             BasicServerInfo.Version version = new BasicServerInfo.Version(MinecraftServer.VERSION_NAME,
                     MinecraftServer.PROTOCOL_VERSION);
-            BasicServerInfo.Players players = new BasicServerInfo.Players(SETTINGS.current().getMaxPlayers(),
-                    SETTINGS.current().isShowCurrentPlayers() ?
+            BasicServerInfo.Players players = new BasicServerInfo.Players(Settings.getMaxPlayers(),
+                    Settings.isShowCurrentPlayers() ?
                             MinecraftServer.getConnectionManager().getOnlinePlayers().size() : -1);
             ItemStack menuItem = null;
             try {
                 menuItem = ItemStack.fromItemNBT((NBTCompound) new SNBTParser(
-                        new StringReader(SETTINGS.current().getMenuItemSNBT())).parse());
-            } catch (NBTException e) {
+                        new StringReader(Settings.getMenuItemSNBT())).parse());
+            } catch (NBTException | NullPointerException e) {
                 MinecraftServer.LOGGER.error("Could not load item SNBT", e);
             }
 
             if (menuItem == null)
-                info = new BasicServerInfo(SETTINGS.current().getGroup(), address,
-                        version, SETTINGS.current().getMinVersion(), players);
-            else info = new MenuServerInfo(SETTINGS.current().getGroup(),
-                    address, version, SETTINGS.current().getMinVersion(),
+                info = new BasicServerInfo(Settings.getGroup(), address,
+                        version, Settings.getMinVersion(), players);
+            else info = new MenuServerInfo(Settings.getGroup(),
+                    address, version, Settings.getMinVersion(),
                     players, new MenuServerInfo.Representation(menuItem));
             ServerPromotion.start(info);
         }
-        if (SETTINGS.current().isShowMenu()) {
+        if (Settings.isShowMenu()) {
             // TODO: 11.11.21 implement menu
             if (info != null) ServerMenu.setOwnId(info.getId());
             ServerMenu.activate();

@@ -93,7 +93,8 @@ public class BasicServerInfo {
         @Expose private final int max;
         @Expose private final int online;
 
-        public Players(int max, int online) {
+        public Players(Integer max, int online) {
+            if (max == null) max = -1;
             this.max = max;
             this.online = online;
         }

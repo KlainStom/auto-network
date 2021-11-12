@@ -22,6 +22,7 @@ repositories {
 
 dependencies {
     implementation project(':auto-network-common')
+    implementation project(':auto-network-backend')
     implementation "net.kyori:adventure-text-minimessage:4.1.0-SNAPSHOT"
     compileOnly('com.github.Minestom:Minestom:-SNAPSHOT')
 }
@@ -45,6 +46,7 @@ test {
 shadowJar {
     dependencies {
         include(project(':auto-network-common'))
+        include(project(':auto-network-backend'))
     }
 }
 
