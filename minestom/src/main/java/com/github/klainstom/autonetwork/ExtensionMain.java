@@ -40,7 +40,6 @@ public class ExtensionMain extends Extension {
             ServerPromotion.start(info);
         }
         if (Settings.isShowMenu()) {
-            // TODO: 11.11.21 implement menu
             if (info != null) ServerMenu.setOwnId(info.getId());
             ServerMenu.activate();
         }

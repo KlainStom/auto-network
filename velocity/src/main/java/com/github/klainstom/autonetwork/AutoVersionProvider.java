@@ -16,6 +16,7 @@ import java.net.InetSocketAddress;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
+// TODO: 16.11.21 Clean up this class
 public class AutoVersionProvider extends BaseVersionProvider {
     private static final Logger LOGGER = LoggerFactory.getLogger(AutoVersionProvider.class);
     private static Method getAssociation;
@@ -34,7 +35,6 @@ public class AutoVersionProvider extends BaseVersionProvider {
     }
 
     private int getBackProtocol(UserConnection user) throws Exception {
-        //TODO use newly added Velocity netty event
         ChannelHandler mcHandler = user.getChannel().pipeline().get("handler");
         InetSocketAddress address = ((ServerConnection) getAssociation.invoke(mcHandler)).getServerInfo().getAddress();
         BasicServerInfo networkServer = ServerDiscovery.getNetworkServers().get(address);
@@ -73,7 +73,6 @@ public class AutoVersionProvider extends BaseVersionProvider {
 
         // Loop through all protocols to get the closest protocol id that bungee supports (and that viaversion does too)
 
-        // TODO: This needs a better fix, i.e checking ProtocolRegistry to see if it would work.
         // This is more of a workaround for snapshot support by bungee.
         for (int i = compatibleProtocols.length - 1; i >= 0; i--) {
             int protocol = compatibleProtocols[i];
