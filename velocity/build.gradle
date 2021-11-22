@@ -42,4 +42,8 @@ shadowJar {
     }
 }
 
+java {
+    withSourcesJar()
+}
+
 tasks.build.dependsOn tasks.shadowJar
