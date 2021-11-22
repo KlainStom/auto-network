@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Method;
 import java.net.InetSocketAddress;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 // TODO: 16.11.21 Clean up this class
@@ -35,7 +36,7 @@ public class AutoVersionProvider extends BaseVersionProvider {
     }
 
     private int getBackProtocol(UserConnection user) throws Exception {
-        ChannelHandler mcHandler = user.getChannel().pipeline().get("handler");
+        ChannelHandler mcHandler = Objects.requireNonNull(user.getChannel(), "No user channel").pipeline().get("handler");
         InetSocketAddress address = ((ServerConnection) getAssociation.invoke(mcHandler)).getServerInfo().getAddress();
         BasicServerInfo networkServer = ServerDiscovery.getNetworkServers().get(address);
         int protocol;
