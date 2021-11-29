@@ -1,7 +1,6 @@
 package com.github.klainstom.autonetwork;
 
 import com.google.gson.annotations.Expose;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.minestom.server.item.ItemStack;
 import org.jglrxavpok.hephaistos.nbt.NBTCompound;
 import org.jglrxavpok.hephaistos.nbt.NBTException;
@@ -10,7 +9,6 @@ import org.jglrxavpok.hephaistos.nbt.SNBTParser;
 import java.io.StringReader;
 
 public class MenuServerInfo extends BasicServerInfo {
-    private static final MiniMessage MINI_MESSAGE = MiniMessage.get();
     @Expose private final Representation representation;
 
     public MenuServerInfo(String name, Address address, Version version, Version minVersion, Players players, Representation representation) {
