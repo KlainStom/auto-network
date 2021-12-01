@@ -43,6 +43,7 @@ public class ExtensionMain extends Extension {
             if (info != null) ServerMenu.setOwnId(info.getId());
             ServerMenu.activate();
         }
+        ServerDiscovery.start();
     }
 
     @Override
