@@ -64,9 +64,10 @@ public class ServerMenu {
         ACTIVE_INSTANCES.remove(instance);
     }
 
-    private static Task UPDATE_TASK = null;
+    private static final Task UPDATE_TASK;
     private static final Inventory MENU_INVENTORY = new Inventory(InventoryType.CHEST_6_ROW, MENU_TITLE);
-    private static final Inventory ADMIN_MENU_INVENTORY = new Inventory(InventoryType.CHEST_6_ROW, MENU_TITLE);
+    private static final Inventory ADMIN_MENU_INVENTORY = new Inventory(InventoryType.CHEST_6_ROW,
+            Component.text("[ADMIN]").append(MENU_TITLE));
 
     static {
         MinecraftServer.getSchedulerManager().buildShutdownTask(ServerMenu::deactivate);
