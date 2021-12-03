@@ -2,6 +2,7 @@ package com.github.klainstom.autonetwork;
 
 import com.google.inject.Inject;
 import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.player.KickedFromServerEvent;
 import com.velocitypowered.api.event.player.PlayerChooseInitialServerEvent;
 import com.velocitypowered.api.event.player.ServerPreConnectEvent;
 import com.velocitypowered.api.event.proxy.ListenerBoundEvent;
@@ -18,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
+import java.util.List;
 
 @Plugin(
         id = "auto-network-velocity",
@@ -75,9 +77,33 @@ public class AutoNetworkVelocity {
         if (serverVersion == null) serverVersion = networkServer.getVersion();
         if (event.getPlayer().getProtocolVersion().getProtocol() < serverVersion.getProtocol()) {
             event.setResult(ServerPreConnectEvent.ServerResult.denied());
-            event.getPlayer().sendMessage(Component.text(
-                    "Minimum protocol version "+serverVersion.getName()+" required!",
-                    NamedTextColor.RED));
+            event.getPlayer().sendMessage(Component.translatable(
+                    "multiplayer.disconnect.outdated_client",
+                    NamedTextColor.YELLOW,
+                    List.of(Component.text(networkServer.getMinVersion().getName()))));
+        }
+    }
+
+    @Subscribe
+    public void onServerKick(KickedFromServerEvent event) {
+        if (event.kickedDuringServerConnect()) {
+            event.setResult(KickedFromServerEvent.Notify.create(event.getServerKickReason().orElseGet(
+                    () -> Component.translatable("multiplayer.disconnect.generic", NamedTextColor.RED))));
+            return;
+        }
+        InetSocketAddress address = event.getServer().getServerInfo().getAddress();
+        BasicServerInfo networkServer = ServerDiscovery.getNetworkServers().get(address);
+        if (networkServer == null) return;
+        if (networkServer.getGroup().equals("lobby")) {
+            event.setResult(KickedFromServerEvent.DisconnectPlayer.create(event.getServerKickReason().orElseGet(
+                    () -> Component.translatable("multiplayer.disconnect.generic", NamedTextColor.RED))));
+            return;
+        }
+        for (RegisteredServer registeredServer : SERVER.matchServer("lobby-")) {
+            event.setResult(KickedFromServerEvent.RedirectPlayer.create(registeredServer,
+                    event.getServerKickReason().orElseGet(
+                            () -> Component.translatable("multiplayer.disconnect.generic", NamedTextColor.RED))));
+            break;
         }
     }
 }
