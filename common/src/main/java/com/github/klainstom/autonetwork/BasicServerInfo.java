@@ -7,19 +7,21 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class BasicServerInfo {
-    @Expose private final String  name;
+    @Expose private final String group;
     @Expose private final Address address;
     @Expose private final Version version;
     @Expose private final Version minVersion;
     @Expose private final Players players;
 
-    public BasicServerInfo(String name, Address address, Version version, Version minVersion, Players players) {
-        this.name = name;
+    public BasicServerInfo(String group, Address address, Version version, Version minVersion, Players players) {
+        this.group = group;
         this.address = address;
         this.version = version;
         this.minVersion = minVersion;
         this.players = players;
     }
+
+    public String getGroup() { return group; }
 
     public Address getAddress() {
         return address;
@@ -39,7 +41,7 @@ public class BasicServerInfo {
 
     public String getId() {
         try {
-            String rawId = String.format("%s%s%d", name, address.host, address.port);
+            String rawId = String.format("%s%s%d", group, address.host, address.port);
             MessageDigest md = MessageDigest.getInstance("SHA-1");
             byte[] messageDigest = md.digest(rawId.getBytes());
             BigInteger no = new BigInteger(1, messageDigest);
@@ -47,11 +49,11 @@ public class BasicServerInfo {
             while (hashtext.length() < 32) {
                 hashtext.insert(0, "0");
             }
-            return name + "-" + hashtext;
+            return group + "-" + hashtext;
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        return name;
+        return group;
     }
 
     public static class Address {
