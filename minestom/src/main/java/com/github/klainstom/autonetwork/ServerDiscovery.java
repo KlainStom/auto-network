@@ -29,7 +29,7 @@ public class ServerDiscovery {
     private static volatile Task CLEANER_TASK = null;
 
     static {
-        MinecraftServer.getSchedulerManager().buildShutdownTask(ServerDiscovery::stop).schedule();
+        MinecraftServer.getSchedulerManager().buildShutdownTask(ServerDiscovery::stop);
     }
 
     private static final Map<SocketAddress, MenuServerInfo> NETWORK_SERVERS = new HashMap<>();

@@ -24,7 +24,7 @@ public class ServerPromotion {
     private static volatile Task SENDER_TASK = null;
 
     static {
-        MinecraftServer.getSchedulerManager().buildShutdownTask(ServerPromotion::stop).schedule();
+        MinecraftServer.getSchedulerManager().buildShutdownTask(ServerPromotion::stop);
     }
 
     private ServerPromotion() {}

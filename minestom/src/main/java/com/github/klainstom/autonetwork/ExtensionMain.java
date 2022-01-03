@@ -5,7 +5,7 @@ import net.minestom.server.extensions.Extension;
 import net.minestom.server.item.ItemStack;
 import org.jglrxavpok.hephaistos.nbt.NBTCompound;
 import org.jglrxavpok.hephaistos.nbt.NBTException;
-import org.jglrxavpok.hephaistos.nbt.SNBTParser;
+import org.jglrxavpok.hephaistos.parser.SNBTParser;
 
 import java.io.StringReader;
 
@@ -14,10 +14,15 @@ public class ExtensionMain extends Extension {
     public void initialize() {
         MinecraftServer.LOGGER.info("$name$ initialize.");
         Settings.read();
+    }
+
+    @Override
+    public void postInitialize() {
         BasicServerInfo info = null;
         if (Settings.isPromote()) {
             BasicServerInfo.Address address = new BasicServerInfo.Address(MinecraftServer.getServer().getAddress(),
                     MinecraftServer.getServer().getPort());
+            MinecraftServer.LOGGER.info(address.getHost(), address.getPort());
             BasicServerInfo.Version version = new BasicServerInfo.Version(MinecraftServer.VERSION_NAME,
                     MinecraftServer.PROTOCOL_VERSION);
             BasicServerInfo.Players players = new BasicServerInfo.Players(Settings.getMaxPlayers(),

@@ -23,6 +23,7 @@ import net.minestom.server.network.packet.server.play.PluginMessagePacket;
 import net.minestom.server.tag.Tag;
 import net.minestom.server.timer.Task;
 
+import java.awt.*;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -50,7 +51,7 @@ public class ServerMenu {
     }
     public static void activate() {
         MinecraftServer.getGlobalEventHandler().addChild(PLAYER_NODE);
-        UPDATE_TASK.schedule();
+        UPDATE_TASK = UPDATE_TASK_BUILDER.schedule();
     }
     public static void deactivate() {
         MinecraftServer.getGlobalEventHandler().removeChild(PLAYER_NODE);
@@ -64,10 +65,12 @@ public class ServerMenu {
         ACTIVE_INSTANCES.remove(instance);
     }
 
-    private static final Task UPDATE_TASK;
     private static final Inventory MENU_INVENTORY = new Inventory(InventoryType.CHEST_6_ROW, MENU_TITLE);
     private static final Inventory ADMIN_MENU_INVENTORY = new Inventory(InventoryType.CHEST_6_ROW,
             Component.text("[ADMIN]").append(MENU_TITLE));
+
+    private static final Task.Builder UPDATE_TASK_BUILDER;
+    private static Task UPDATE_TASK;
 
     static {
         MinecraftServer.getSchedulerManager().buildShutdownTask(ServerMenu::deactivate);
@@ -104,7 +107,7 @@ public class ServerMenu {
             }
         });
 
-        UPDATE_TASK = MinecraftServer.getSchedulerManager().buildTask(() -> {
+        UPDATE_TASK_BUILDER = MinecraftServer.getSchedulerManager().buildTask(() -> {
             // === for normal players ===
             Set<ItemStack> serversInMenu = new HashSet<>(List.of(MENU_INVENTORY.getItemStacks()));
             Set<ItemStack> serversInNetwork = ServerDiscovery.getNetworkServers().values().stream()
@@ -131,7 +134,7 @@ public class ServerMenu {
                 ADMIN_MENU_INVENTORY.addItemStack(button);
             }
             // TODO: 09.10.21 sort the server buttons into groups and by players online
-        }).repeat(Duration.ofSeconds(1)).build();
+        }).repeat(Duration.ofSeconds(1));
     }
 
     private static ItemStack getItemStackForNetworkServer(MenuServerInfo server,

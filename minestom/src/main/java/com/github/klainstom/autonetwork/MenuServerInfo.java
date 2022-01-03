@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 import net.minestom.server.item.ItemStack;
 import org.jglrxavpok.hephaistos.nbt.NBTCompound;
 import org.jglrxavpok.hephaistos.nbt.NBTException;
-import org.jglrxavpok.hephaistos.nbt.SNBTParser;
+import org.jglrxavpok.hephaistos.parser.SNBTParser;
 
 import java.io.StringReader;
 
