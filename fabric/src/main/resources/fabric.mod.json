@@ -9,7 +9,6 @@
   "contact": {},
 
   "license": "unlicense",
-  "icon": "assets/auto-network-fabric/icon.png",
 
   "environment": "server",
   "entrypoints": {
@@ -22,6 +21,6 @@
   "depends": {
     "fabricloader": ">=0.12.5",
               "fabric": "*",
-          "minecraft": "1.17.1"
+          "minecraft": ">=1.17"
   }
 }

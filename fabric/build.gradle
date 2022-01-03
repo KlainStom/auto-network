@@ -1,4 +1,5 @@
 plugins {
+    id 'com.github.johnrengelman.shadow'
     id 'fabric-loom' version '0.10-SNAPSHOT'
     id 'maven-publish'
 }
@@ -22,6 +23,8 @@ dependencies {
 
     // PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
     // You may need to force-disable transitiveness on them.
+    implementation project(':auto-network-common')
+    implementation project(':auto-network-backend')
 }
 
 processResources {
@@ -61,6 +64,10 @@ jar {
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}" }
     }
+}
+
+build {
+    dependsOn(shadowJar)
 }
 
 // configure the maven publication
