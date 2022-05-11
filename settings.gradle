@@ -10,13 +10,11 @@ def modulePrefix = ":auto-network-"
 
 include(modulePrefix + "common")
 include(modulePrefix + "backend")
-include(modulePrefix + "bungeecord")
 include(modulePrefix + "velocity")
 include(modulePrefix + "minestom")
 
 project(modulePrefix + "common").projectDir = file("common")
 project(modulePrefix + "backend").projectDir = file("backend")
-project(modulePrefix + "bungeecord").projectDir = file("bungeecord")
 project(modulePrefix + "velocity").projectDir = file("velocity")
 project(modulePrefix + "minestom").projectDir = file("minestom")
 
