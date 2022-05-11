@@ -1,12 +1,15 @@
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
+        maven("https://repo.spongepowered.org/maven")
     }
 }
 
-rootProject.name = 'auto-network'
+rootProject.name = "auto-network"
 
-def modulePrefix = ":auto-network-"
+var modulePrefix = ":auto-network-"
 
 include(modulePrefix + "common")
 include(modulePrefix + "backend")
