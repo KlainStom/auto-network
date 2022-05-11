@@ -23,7 +23,7 @@ repositories {
 dependencies {
     implementation project(':auto-network-common')
     implementation project(':auto-network-backend')
-    compileOnly('com.github.Minestom:Minestom:-SNAPSHOT')
+    compileOnly(libs.minestom)
 }
 
 blossom {

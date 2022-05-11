@@ -8,5 +8,5 @@ repositories {
 
 dependencies {
     compileOnly project(':auto-network-common')
-    compileOnly('com.google.code.gson:gson:2.8.9')
+    compileOnly(libs.gson)
 }
